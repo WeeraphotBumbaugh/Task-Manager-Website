@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+main {
+  display: flex;
+}
+#split-left {
+  background-color: #f3d8f3;
+  min-height: 100px;
+  flex: 7;
+}
+#split-right {
+  background-color: #edc5ed;
+  min-height: 100px;
+  flex: 5;
+}
+
+h1,
+h3 {
+  text-align: center;
+}
+/*ICONS*/
+.not-important,
+.important {
+  font-size: 30px;
+  cursor: pointer;
+  color: purple;
+}
+.not-important:hover {
+  color: mediumorchid;
+}
+.important:hover {
+  color: mediumorchid;
+}
+/*UTILITY*/
