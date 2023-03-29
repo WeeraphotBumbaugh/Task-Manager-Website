@@ -22,8 +22,8 @@
     <main>
       <section id="split-left">
         <h3>Your Tasks</h3>
-        <button id="btnContent">Show/Hide Sidebar</button>
-        <div id="tasks">Tasks here</div>
+        <button id="btnContent" class="btn">Show/Hide Sidebar</button>
+        <div id="tasks"></div>
       </section>
       <section id="split-right">
         <h3>Task Info</h3>
@@ -33,19 +33,24 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Title</label>
-            <input type="text" class="form-control" />
+            <input id="txtTitle" type="text" class="form-control" />
           </div>
           <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea class="form-control" rows="3"></textarea>
+            <textarea
+              id="txtDescription"
+              class="form-control"
+              rows="3"
+            ></textarea>
           </div>
           <div class="mb-3">
             <label class="form-label">Due Date</label>
-            <input type="datetime-local" class="form-control" />
+            <input id="selDueDate" type="datetime-local" class="form-control" />
           </div>
           <div class="mb-3">
             <label class="form-label">Duration</label>
             <input
+              id="txtDuration"
               type="text"
               class="form-control"
               placeholder="(Amount of Time)"
@@ -53,7 +58,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Status</label>
-            <select class="form-control">
+            <select id="selStatus" class="form-control">
               <option>Not Started</option>
               <option>In Progress</option>
               <option>Delayed</option>
@@ -63,13 +68,15 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Color</label>
-            <input type="color" class="form-control" />
+            <input id="selColor" type="color" class="form-control" />
           </div>
           <button id="saveTask" class="btn btn-light">Save Task</button>
         </div>
       </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <script src="./scripts/taskmanager.js"></script>
+    <script src="./scripts/task.js"></script>
   </body>
 </html>
