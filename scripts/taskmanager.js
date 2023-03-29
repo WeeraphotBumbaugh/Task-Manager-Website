@@ -23,6 +23,7 @@ function saveTask() {
   );
   console.log(task);
   displayTask(task);
+  $("input").val("");
 }
 
 function displayTask(task) {
