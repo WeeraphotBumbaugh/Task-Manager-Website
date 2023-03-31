@@ -33,14 +33,14 @@ function saveTask() {
     success: function (response) {
       const list = JSON.parse(response);
       console.log(list);
-      displayTask(task);
-      clearForm();
     },
     error: function (error) {
       console.log("Error:", error);
       alert("Unexpected error, task was not saved");
     },
   });
+  displayTask(task);
+  clearForm();
 }
 
 function clearForm() {
@@ -60,18 +60,31 @@ function formatDate(date) {
 function displayTask(task) {
   let syntax = `
   <div class="activeTasks" style="border:3px solid ${task.color}">
-    <div class="info-left">
-      <h4>${task.title}</h4>
-      <h6>Due: ${formatDate(task.dueDate)}</h6>
-      <p><h6>Duration</h6> ${task.duration}</p>
+    <div class="info">
+      <h5>${task.title}</h5>
+      <p>${task.description}</p>
     </div>
-    <div class="info-right">
-      <h6>Description</h6> <p>${task.description}</p>
-      <h6>Status</h6><p>${task.status}</p>
-      <h6>Cost</h6><p>$${task.cost || "0"}</p>
+    <label>${task.status}</label>
+    <label>$${task.cost || "0"}</label>
+    <div class="dates">
+      <label>${formatDate(task.dueDate)}</label>
+      <label>${task.duration}</label>
     </div>
-  </div>
-  `;
+  </div>`;
+  // let syntax = `
+  // <div class="activeTasks" style="border:3px solid ${task.color}">
+  //   <div class="info-left">
+  //     <h4>${task.title}</h4>
+  //     <h6>Due: ${formatDate(task.dueDate)}</h6>
+  //     <p><h6>Duration</h6> ${task.duration}</p>
+  //   </div>
+  //   <div class="info-right">
+  //     <h6>Description</h6> <p>${task.description}</p>
+  //     <h6>Status</h6><p>${task.status}</p>
+  //     <h6>Cost</h6><p>$${task.cost || "0"}</p>
+  //   </div>
+  // </div>
+  // `;
 
   $("#tasks").append(syntax);
 }
