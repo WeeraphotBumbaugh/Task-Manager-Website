@@ -1,4 +1,5 @@
 var isImportant = false;
+const serverUrl = "http://fsdiapi.azurewebsites.net";
 
 function togglePanel() {
   $("#split-right").slideToggle("slow");
@@ -11,6 +12,7 @@ function saveTask() {
   const duration = $("#txtDuration").val();
   const status = $("#selStatus").val();
   const color = $("#selColor").val();
+  const cost = $("#txtCost").val();
 
   let task = new Task(
     title,
@@ -19,11 +21,40 @@ function saveTask() {
     dueDate,
     duration,
     status,
-    color
+    color,
+    cost
   );
-  console.log(task);
-  displayTask(task);
+
+  $.ajax({
+    type: "POST",
+    url: serverUrl + "/api/tasks/",
+    data: JSON.stringify(task),
+    contentType: "application/json",
+    success: function (response) {
+      const list = JSON.parse(response);
+      console.log(list);
+      displayTask(task);
+      clearForm();
+    },
+    error: function (error) {
+      console.log("Error:", error);
+      alert("Unexpected error, task was not saved");
+    },
+  });
+}
+
+function clearForm() {
   $("input").val("");
+  $("textarea").val("");
+  $("select").val("N/A");
+  $("#selColor").val("#00000");
+}
+
+function formatDate(date) {
+  let dateObject = new Date(date);
+  return (
+    dateObject.toLocaleDateString() + " " + dateObject.toLocaleTimeString()
+  );
 }
 
 function displayTask(task) {
@@ -31,12 +62,13 @@ function displayTask(task) {
   <div class="activeTasks" style="border:3px solid ${task.color}">
     <div class="info-left">
       <h4>${task.title}</h4>
-      <h6>Due Date: ${task.dueDate}</h6>
-      <p><h6>Duration:</h6> ${task.duration}</p>
+      <h6>Due: ${formatDate(task.dueDate)}</h6>
+      <p><h6>Duration</h6> ${task.duration}</p>
     </div>
     <div class="info-right">
-      <h6>Description:</h6> <p>${task.description}</p>
-      <h6>Status:</h6><p>${task.status}</p>
+      <h6>Description</h6> <p>${task.description}</p>
+      <h6>Status</h6><p>${task.status}</p>
+      <h6>Cost</h6><p>$${task.cost || "0"}</p>
     </div>
   </div>
   `;
@@ -57,8 +89,27 @@ function toggleImportant() {
   }
 }
 
+function fetchTasks() {
+  $.ajax({
+    type: "GET",
+    url: serverUrl + "/api/tasks/",
+    success: function (response) {
+      const list = JSON.parse(response);
+      for (let i = 0; i < list.length; i++) {
+        let record = list[i];
+        if (record.name === "Will") {
+          displayTask(record);
+        }
+      }
+    },
+    error: function (error) {
+      console.log("Error:", error);
+    },
+  });
+}
+
 function init() {
-  console.log("Hello World");
+  fetchTasks();
   $("#btnContent").click(togglePanel);
   $("#saveTask").click(saveTask);
   $("#iImportant").click(toggleImportant);
