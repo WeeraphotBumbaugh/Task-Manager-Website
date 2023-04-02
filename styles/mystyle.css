@@ -4,7 +4,7 @@
 }
 body {
   background-image: url(/images/purpleLine.jpg);
-  color: white;
+  color: rgb(230, 235, 241);
 }
 main {
   display: flex;
@@ -19,7 +19,7 @@ main {
   background-color: rgba(253, 114, 255, 0.079);
   border-radius: 30px;
   min-height: 100px;
-  flex: 5;
+  flex: 3;
   padding: 10px 10px;
   margin-right: 5px;
 }
@@ -33,10 +33,10 @@ h1 {
 label {
   font-size: 20px;
 }
-#btnContent {
+#btnGroup {
   position: absolute;
-  top: 5px;
-  right: 20px;
+  top: 10px;
+  right: 50px;
 }
 .btn {
   background: #c864de;
@@ -85,6 +85,9 @@ label {
   border-radius: 40px;
   align-items: center;
 }
+.activeTasks i {
+  margin: 0 8px;
+}
 .activeTasks .info {
   flex: 5;
   margin-left: 10px;
@@ -97,16 +100,20 @@ label {
 }
 .activeTasks label {
   flex: 3;
+  text-align: center;
 }
 .activeTasks .dates {
   flex: 5;
+}
+.activeTasks .dates label {
+  display: block;
 }
 /*ICONS*/
 .not-important,
 .important {
   font-size: 30px;
   cursor: pointer;
-  color: rgb(241, 77, 241);
+  color: rgba(73, 162, 250, 0.709);
 }
 .not-important:hover {
   color: mediumorchid;
@@ -114,4 +121,14 @@ label {
 .important:hover {
   color: mediumorchid;
 }
+.iDelete {
+  font-size: 24px;
+  cursor: pointer;
+}
+.iDelete:hover {
+  color: red;
+}
 /*UTILITY*/
+.hide {
+  display: none;
+}

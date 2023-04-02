@@ -22,21 +22,32 @@
     <main>
       <section id="split-left">
         <h3>Your Tasks</h3>
-        <button id="btnContent" class="btn">Show/Hide Sidebar</button>
+        <div id="btnGroup">
+          <button id="deleteAll" class="btn" onclick="deleteAllTasks();">
+            Clear Tasks
+          </button>
+          <button id="btnContent" class="btn">Show/Hide Sidebar</button>
+        </div>
         <div id="tasks"></div>
       </section>
       <section id="split-right">
         <h3>Task Info</h3>
         <div id="form">
           <div class="mb-3">
+            <div id="successPanel" class="alert alert-success hide">
+              Task saved successfully!
+            </div>
+            <div id="alertPanel" class="alert alert-danger hide">
+              Please fill out all fields with an *.
+            </div>
             <i id="iImportant" class="fa-regular fa-flag not-important"></i>
           </div>
           <div class="mb-3">
-            <label class="form-label">Title</label>
+            <label class="form-label">Title*</label>
             <input id="txtTitle" type="text" class="form-control" />
           </div>
           <div class="mb-3">
-            <label class="form-label">Description</label>
+            <label class="form-label">Description*</label>
             <textarea
               id="txtDescription"
               class="form-control"
@@ -44,7 +55,7 @@
             ></textarea>
           </div>
           <div class="mb-3">
-            <label class="form-label">Due Date</label>
+            <label class="form-label">Due Date*</label>
             <input id="selDueDate" type="datetime-local" class="form-control" />
           </div>
           <div class="mb-3">
@@ -57,7 +68,7 @@
             />
           </div>
           <div class="mb-3">
-            <label class="form-label">Status</label>
+            <label class="form-label">Status*</label>
             <select id="selStatus" class="form-control">
               <option>N/A</option>
               <option>Not Started</option>
@@ -75,7 +86,7 @@
             <label class="form-label">Cost</label>
             <input id="txtCost" type="number" class="form-control" />
           </div>
-          <button id="saveTask" class="btn btn-light">Save Task</button>
+          <button id="saveTask" class="btn">Save Task</button>
         </div>
       </section>
     </main>

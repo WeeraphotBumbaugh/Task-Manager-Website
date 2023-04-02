@@ -14,6 +14,15 @@ function saveTask() {
   const color = $("#selColor").val();
   const cost = $("#txtCost").val();
 
+  if (!title || !desc || !dueDate || !status) {
+    isValid = false;
+    $("#alertPanel").slideToggle("slow");
+    setTimeout(() => {
+      $("#alertPanel").slideToggle("slow");
+    }, 2000);
+    return;
+  }
+
   let task = new Task(
     title,
     isImportant,
@@ -33,14 +42,19 @@ function saveTask() {
     success: function (response) {
       const list = JSON.parse(response);
       console.log(list);
+      displayTask(task);
+      clearForm();
+
+      $("#successPanel").slideToggle("slow");
+      setTimeout(() => {
+        $("#successPanel").slideToggle("slow");
+      }, 2000);
     },
     error: function (error) {
       console.log("Error:", error);
       alert("Unexpected error, task was not saved");
     },
   });
-  displayTask(task);
-  clearForm();
 }
 
 function clearForm() {
@@ -57,36 +71,68 @@ function formatDate(date) {
   );
 }
 
+function getIcon(savedAsImportant) {
+  if (savedAsImportant) {
+    return `<i class="fa-solid fa-flag important"></i>`;
+  } else {
+    return `<i class="fa-regular fa-flag not-important"></i>`;
+  }
+}
+
+function formatCost(cost) {
+  if (!cost) {
+    return "0.00";
+  } else {
+    return parseFloat(cost).toFixed(2);
+  }
+}
+
 function displayTask(task) {
   let syntax = `
-  <div class="activeTasks" style="border:3px solid ${task.color}">
+  <div id="${task._id}" class="activeTasks" style="border:3px solid ${
+    task.color
+  }">
+  ${getIcon(task.important)}
     <div class="info">
       <h5>${task.title}</h5>
       <p>${task.description}</p>
     </div>
     <label>${task.status}</label>
-    <label>$${task.cost || "0"}</label>
+    <label>$${formatCost(task.cost)}</label>
     <div class="dates">
       <label>${formatDate(task.dueDate)}</label>
-      <label>${task.duration}</label>
+      <label>Duration: ${task.duration || "N/A"}</label>
     </div>
+    <i onclick="deleteTask('${
+      task._id
+    }')" class="fa-solid fa-trash-can iDelete"></i>
   </div>`;
-  // let syntax = `
-  // <div class="activeTasks" style="border:3px solid ${task.color}">
-  //   <div class="info-left">
-  //     <h4>${task.title}</h4>
-  //     <h6>Due: ${formatDate(task.dueDate)}</h6>
-  //     <p><h6>Duration</h6> ${task.duration}</p>
-  //   </div>
-  //   <div class="info-right">
-  //     <h6>Description</h6> <p>${task.description}</p>
-  //     <h6>Status</h6><p>${task.status}</p>
-  //     <h6>Cost</h6><p>$${task.cost || "0"}</p>
-  //   </div>
-  // </div>
-  // `;
-
   $("#tasks").append(syntax);
+}
+
+function deleteTask(id) {
+  $.ajax({
+    type: "DELETE",
+    url: serverUrl + `/api/tasks/${id}/`,
+    success: function () {
+      $("#" + id).remove();
+    },
+    error: function (error) {
+      console.log("Error:", error);
+    },
+  });
+}
+function deleteAllTasks() {
+  $.ajax({
+    type: "DELETE",
+    url: serverUrl + `/api/tasks/clear/Will/`,
+    success: function () {
+      $("#tasks").html("");
+    },
+    error: function (error) {
+      console.log("Error:", error);
+    },
+  });
 }
 
 function toggleImportant() {
